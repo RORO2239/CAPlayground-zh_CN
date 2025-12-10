@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="CAPlayground">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/apps/CAPlayground.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,14 +1,6 @@
-<table width="100%">
-  <tr>
-    <td align="right" width="120">
-      <img src="apps/web/public/icon-dark.png" alt="CAPlayground Logo" width="100" />
-    </td>
-    <td align="left">
-      <h1>CAPlayground</h1>
-      <h3 style="margin-top: -10px;">在任何桌面电脑上为 iOS 和 iPadOS 创建精美的动态壁纸</h3>
-    </td>
-  </tr>
-</table>
+# CAPlayground
+
+**在任何桌面电脑上为 iOS 和 iPadOS 创建精美的动态壁纸**
 
 > ⚠️ **提示**：这是 [CAPlayground/CAPlayground](https://github.com/caplayground/caplayground) 的复刻项目，进行了中文本地化并移除了云端同步功能，所有数据仅保存在本地。原项目由 CAPlayground 团队开发维护。
 
