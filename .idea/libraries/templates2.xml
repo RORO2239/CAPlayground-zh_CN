@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="templates2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/apps/CAPlayground/public/templates/gyro-tendies.zip!/" />
+      <root url="jar://$PROJECT_DIR$/apps/CAPlayground/public/templates/tendies.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
