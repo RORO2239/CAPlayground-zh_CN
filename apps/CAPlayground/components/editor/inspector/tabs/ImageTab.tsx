@@ -24,7 +24,8 @@ export function ImageTab({
   assets,
 }: ImageTabProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const inState = !!activeState && activeState !== 'Base State';
+  // 允许在所有状态下替换图片
+  // const inState = !!activeState && activeState !== 'Base State';
   const [cropOpen, setCropOpen] = useState(false);
   const [blurOpen, setBlurOpen] = useState(false);
 
@@ -33,7 +34,7 @@ export function ImageTab({
   const imageLayer = selected as ImageLayer;
   const asset = assets?.[imageLayer.id];
   const imageSrc = asset?.dataURL ?? imageLayer.src;
-  const canCrop = !!imageSrc && !inState;
+  const canCrop = !!imageSrc;
 
   return (
     <div className="grid grid-cols-2 gap-x-1.5 gap-y-3">
@@ -56,15 +57,14 @@ export function ImageTab({
                   type="button"
                   variant="secondary"
                   className="w-full"
-                  disabled={inState}
+                  disabled={false}
                   onClick={() => fileInputRef.current?.click()}
                 >
                   替换图片…
                 </Button>
               </div>
             </TooltipTrigger>
-            {inState && <TooltipContent sideOffset={6}>不支持状态过渡</TooltipContent>}
-          </Tooltip>
+                      </Tooltip>
           <Button
             type="button"
             variant="outline"
@@ -138,9 +138,9 @@ export function ImageTab({
             type="button"
             variant="outline"
             className="w-full"
-            disabled={!imageSrc || inState}
+            disabled={!imageSrc}
             onClick={() => {
-              if (imageSrc && !inState) {
+              if (imageSrc) {
                 setBlurOpen(true);
               }
             }}
