@@ -158,10 +158,77 @@ export function ImageTab({
               }}
             />
           )}
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              disabled={!imageSrc}
+              onClick={async () => {
+                if (!imageSrc) return;
+                const rotatedFile = await rotateImage(imageSrc, -90, asset?.filename ?? selected.name ?? "image.png");
+                await replaceImageForLayer(selected.id, rotatedFile);
+              }}
+            >
+              ↺ 左旋90°
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              disabled={!imageSrc}
+              onClick={async () => {
+                if (!imageSrc) return;
+                const rotatedFile = await rotateImage(imageSrc, 90, asset?.filename ?? selected.name ?? "image.png");
+                await replaceImageForLayer(selected.id, rotatedFile);
+              }}
+            >
+              ↻ 右旋90°
+            </Button>
+          </div>
         </div>
       </div>
     </div>
   );
+}
+
+async function rotateImage(src: string, degrees: number, filename: string): Promise<File> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        reject(new Error('Cannot get canvas context'));
+        return;
+      }
+      
+      // 90度旋转时交换宽高
+      if (Math.abs(degrees) === 90 || Math.abs(degrees) === 270) {
+        canvas.width = img.height;
+        canvas.height = img.width;
+      } else {
+        canvas.width = img.width;
+        canvas.height = img.height;
+      }
+      
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate((degrees * Math.PI) / 180);
+      ctx.drawImage(img, -img.width / 2, -img.height / 2);
+      
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const ext = filename.split('.').pop()?.toLowerCase() || 'png';
+          const mimeType = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : 'image/png';
+          resolve(new File([blob], filename, { type: mimeType }));
+        } else {
+          reject(new Error('Failed to create blob'));
+        }
+      }, filename.endsWith('.jpg') || filename.endsWith('.jpeg') ? 'image/jpeg' : 'image/png');
+    };
+    img.onerror = reject;
+    img.src = src;
+  });
 }
 
 interface ImageCropDialogProps {
