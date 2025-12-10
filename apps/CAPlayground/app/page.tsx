@@ -21,13 +21,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, FolderOpen, Upload } from "lucide-react";
-import { createProject, listProjects, ensureUniqueProjectName, putTextFile } from "@/lib/storage";
+import { Plus, FolderOpen } from "lucide-react";
+import { createProject, ensureUniqueProjectName, putTextFile } from "@/lib/storage";
 import { getDevicesByCategory } from "@/lib/devices";
 
 export default function HomePage() {
   const router = useRouter();
-  const [projects, setProjects] = useState<Array<{ id: string; name: string; createdAt: string }>>([]);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
   const [rootWidth, setRootWidth] = useState(390);
@@ -35,23 +34,10 @@ export default function HomePage() {
   const [useDeviceSelector, setUseDeviceSelector] = useState(false);
   const [selectedDevice, setSelectedDevice] = useState("iPhone 14");
   const [gyroEnabled, setGyroEnabled] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     document.title = "CAPlayground - 壁纸编辑器";
-    loadProjects();
   }, []);
-
-  const loadProjects = async () => {
-    try {
-      const list = await listProjects();
-      setProjects(list.map(p => ({ id: p.id, name: p.name, createdAt: p.createdAt })));
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const createNewProject = async () => {
     const name = newProjectName.trim() || "新壁纸";
@@ -104,20 +90,6 @@ export default function HomePage() {
     router.push(`/editor/${id}`);
   };
 
-  const openRecentProject = (id: string) => {
-    router.push(`/editor/${id}`);
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <p className="text-muted-foreground">加载中...</p>
-      </div>
-    );
-  }
-
-  const recentProjects = projects.slice(0, 6);
-
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
       <div className="max-w-2xl w-full space-y-8">
@@ -154,28 +126,6 @@ export default function HomePage() {
           </Card>
         </div>
 
-        {/* Recent Projects */}
-        {recentProjects.length > 0 && (
-          <div className="space-y-3">
-            <h2 className="text-lg font-semibold">最近项目</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {recentProjects.map((project) => (
-                <Card 
-                  key={project.id} 
-                  className="cursor-pointer hover:bg-accent/50 transition-colors"
-                  onClick={() => openRecentProject(project.id)}
-                >
-                  <CardContent className="p-4">
-                    <p className="font-medium truncate">{project.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(project.createdAt).toLocaleDateString()}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Create Project Dialog */}

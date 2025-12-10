@@ -10,6 +10,10 @@ export interface DeviceSpec {
 
 export const devices: DeviceSpec[] = [
   // iPhone
+  { name: 'iPhone 17 Pro Max', width: 440, height: 956, category: 'iPhone' },
+  { name: 'iPhone 17 Pro', width: 402, height: 874, category: 'iPhone' },
+  { name: 'iPhone Air', width: 420, height: 912, category: 'iPhone' },
+  { name: 'iPhone 17', width: 402, height: 874, category: 'iPhone' },
   { name: 'iPhone 16 Pro Max', width: 440, height: 956, category: 'iPhone' },
   { name: 'iPhone 16 Pro', width: 402, height: 874, category: 'iPhone' },
   { name: 'iPhone 16 Plus', width: 430, height: 932, category: 'iPhone' },
